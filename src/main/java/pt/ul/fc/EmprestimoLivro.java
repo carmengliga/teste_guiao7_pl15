@@ -11,22 +11,22 @@ public class EmprestimoLivro {
     public EmprestimoLivro() {}
 
     /** Marca o empréstimo como atrasado. */
-    @StateRefinement(from="true", to="true")
+    @StateRefinement(from="requisitado(this)", to="atrasado(this)")
     public void marcarAtraso() {}
 
     /** Requisita o livro. */
-    @StateRefinement(from="disponivel()", to="requisitado()")
+    @StateRefinement(from="disponivel(this)", to="requisitado(this)")
     public void requisitar() {}
 
     /** Renova o empréstimo (o livro continua requisitado). */
-    @StateRefinement(from="true", to="true")
+    @StateRefinement(from="requisitado(this)", to="requisitado(this)")
     public void renovar() {}
 
     /** Devolve o livro à biblioteca. */
-    @StateRefinement(from="true", to="true")
+    @StateRefinement(from="requisitado(this)|| atrasado(this)", to="disponivel(this)")
     public void devolver() {}
 
     /** Dá o livro como perdido (definitivo). */
-    @StateRefinement(from="true", to="true")
+    @StateRefinement(from="atrasado(this)", to="perdido(this)")
     public void declararPerdido() {}
 }
